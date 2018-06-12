@@ -3,6 +3,16 @@
 The project is an opportunity to learn about alternative implementations of text tokenization
 as well as strategies to parallelize word count for multi core processors.
 
+## What's in the repository
+
+This is an SBT 1.0, Java 8 project; you need sbt 1.0 to compile, build and run the project and its tests.
+Once a fat jar is created w/ sbt assemble, you can run the code anywhere. 
+
+`com.jacek.wordcount.Main` assumes a list of text files as program arguments
+ 
+`com.jacek.wordcount.MainDirExt` assumes 2 arguments: a root dir to search for text files and an extension such as `.txt` 
+
+
 ## Text tokenization
 
 We have compared three different implementations of extracting whitespace separated tokens,
@@ -19,7 +29,9 @@ Moving away from regex to the `StringTokenizer` is 3 times faster still and is t
 
 Strangely, the fully hand written WS tokenization is NOT faster...
 
-Given more time one could also compare BreakIterator and StreamTokenizer.  
+java.text.BreakIterator (used in Paul Butcher's book on concurrency) is slow
+
+Given more time one could also add StreamTokenizer to the comparison.  
 
 ## Token counting
 

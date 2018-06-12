@@ -5,9 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Main program to count unique lowercased tokens in files specified as arguments
+ *
  * @author Jacek R. Ambroziak
  */
 final class Main {
+    /**
+     * @param args list of text files to count tokens in
+     */
     public static void main(String[] args) {
         final List<File> files = new ArrayList<>();
         for (String arg : args) {

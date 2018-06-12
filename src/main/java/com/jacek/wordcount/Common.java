@@ -15,7 +15,7 @@ import java.util.stream.Stream;
  * @author Jacek R. Ambroziak
  */
 final class Common {
-    private static void countWordsFromReader(final Reader reader, final WordCounter wordCounter) throws IOException {
+    static void countWordsFromReader(final Reader reader, final WordCounter wordCounter) throws IOException {
         final BufferedReader bufferedReader = new BufferedReader(reader);
         String line;
         while ((line = bufferedReader.readLine()) != null) {
@@ -41,7 +41,7 @@ final class Common {
         }
     }
 
-    private static List<File> filesInDirWithExtension(final String dirName, final String extension) throws IOException {
+    static List<File> filesInDirWithExtension(final String dirName, final String extension) throws IOException {
         try (final Stream<Path> paths = Files.walk(Paths.get(dirName))) {
             return paths.filter(path -> path.getFileName().toString().endsWith(extension))
                     .map(Path::toFile)

@@ -71,13 +71,15 @@ final class WordCounter {
     /**
      * Exportable, immutable state of a word counter
      */
-    static final class WordCount implements Comparable<WordCount> {
+    public static final class WordCount implements Comparable<WordCount> {
         static final Comparator<WordCount> COMPARATOR = new WordCountComparator();
 
         final String word;
         final int count;
 
-        private WordCount(final String word, final int count) {
+        public WordCount(final String word, final int count) {
+            checkArgument(word != null);
+            checkArgument(count >= 0);
             this.word = word;
             this.count = count;
         }
@@ -87,13 +89,31 @@ final class WordCounter {
         }
 
         @Override
+        public boolean equals(final Object o) {
+            if (this == o) {
+                return true;
+            } else if (o == null || getClass() != o.getClass()) {
+                return false;
+            } else {
+                final WordCount wc = (WordCount) o;
+                return count == wc.count && word.equals(wc.word);   // word is non null
+            }
+        }
+
+        @Override
+        public int hashCode() {
+            return word.hashCode() + count;
+        }
+
+        @Override
         public String toString() {
             return String.format("\"%s\":%d", word, count);
         }
 
         @Override
         public int compareTo(final WordCount o) {
-            return count - o.count;
+            final int delta = count - o.count;
+            return delta != 0 ? delta : o.word.compareTo(word); // break ties lexicographically
         }
 
         private static class WordCountComparator implements Comparator<WordCount> {
@@ -135,9 +155,9 @@ final class WordCounter {
         return counterHashMap.keySet();
     }
 
-    Optional<Integer> getCount(final String word) {
+    Optional<WordCount> getWordCount(final String word) {
         final Counter counter = counterHashMap.get(word);
-        return counter != null ? Optional.of(counter.toInteger()) : Optional.empty();
+        return counter != null ? Optional.of(new WordCount(word, counter.value)) : Optional.empty();
     }
 
     /**

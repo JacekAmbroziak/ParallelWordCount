@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.BreakIterator;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -85,6 +86,27 @@ final class TokenizationSpeedTest {
         return counter;
     }
 
+    /**
+     * Use BreakIterator for WS splitting and a hand-coded stripPunctuation function
+     */
+    private static long tokenizeLines5(final List<String> lines) {
+        final BreakIterator wordBoundary = BreakIterator.getWordInstance();
+        long counter = 0L;
+        for (final String line : lines) {
+            wordBoundary.setText(line);
+            for (int start = wordBoundary.first(), end = wordBoundary.next();
+                    end != BreakIterator.DONE;
+                    start = end, end = wordBoundary.next()) {
+                final String substring = line.substring(start, end).trim();
+                final String token = Punctuation.stripPunctuation(substring);
+                if (token.length() > 0) {
+                    ++counter;
+                }
+            }
+        }
+        return counter;
+    }
+
     private static List<String> textLinesInDir(final String dirName) throws IOException {
         final List<String> allLines = new ArrayList<>();
         for (final File file : Common.textFilesInDir(dirName)) {
@@ -115,6 +137,8 @@ final class TokenizationSpeedTest {
                 System.out.println("count3 = " + count3);
                 final long count4 = tokenizeLines4(allLines);
                 System.out.println("count4 = " + count4);
+                final long count5 = tokenizeLines5(allLines);
+                System.out.println("count5 = " + count5);
             }
 
             final int nRuns = 10;
@@ -150,6 +174,17 @@ final class TokenizationSpeedTest {
                 for (int i = nRuns; --i >= 0; ) {
                     final Instant before = Instant.now();
                     final long count4 = tokenizeLines4(allLines);
+                    System.out.println("count4 = " + count4);
+                    minTime = Math.min(minTime, Duration.between(before, Instant.now()).toMillis());
+                }
+                System.out.println("minTime4 = " + minTime);
+            }
+            {
+                long minTime = Long.MAX_VALUE;
+                for (int i = nRuns; --i >= 0; ) {
+                    final Instant before = Instant.now();
+                    final long count5 = tokenizeLines5(allLines);
+                    System.out.println("count5 = " + count5);
                     minTime = Math.min(minTime, Duration.between(before, Instant.now()).toMillis());
                 }
                 System.out.println("minTime4 = " + minTime);

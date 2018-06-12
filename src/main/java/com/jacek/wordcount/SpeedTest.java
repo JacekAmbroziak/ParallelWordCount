@@ -9,13 +9,14 @@ import java.util.List;
 import static com.jacek.wordcount.WordCounting.parallelWordCount;
 
 /**
+ * Main program to exercise and compare token counting in all .txt files in Linux kernel source
+ *
  * @author Jacek R. Ambroziak
  */
 final class SpeedTest {
     public static void main(String[] args) {
         try {
             final List<File> fileList = Common.textFilesInDir("/usr/src");
-
             for (int n = 20; --n >= 0; ) {
                 {
                     final WordCounter wordCounter = new WordCounter();
