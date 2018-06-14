@@ -109,7 +109,7 @@ final class TokenizationSpeedTest {
 
     private static List<String> textLinesInDir(final String dirName) throws IOException {
         final List<String> allLines = new ArrayList<>();
-        for (final File file : Common.textFilesInDir(dirName)) {
+        for (final File file : Utils.filesInDirWithExtension(dirName, ".txt")) {
             try {
                 final BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
                 String line;

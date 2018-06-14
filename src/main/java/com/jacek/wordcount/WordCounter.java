@@ -49,10 +49,6 @@ final class WordCounter {
             return value;
         }
 
-        Integer toInteger() {
-            return value;
-        }
-
         @Override
         public int compareTo(final Counter o) {
             return Integer.compare(value, o.value);

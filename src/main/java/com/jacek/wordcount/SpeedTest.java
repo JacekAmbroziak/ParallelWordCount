@@ -13,12 +13,12 @@ import java.util.List;
 final class SpeedTest {
     public static void main(String[] args) {
         try {
-            final List<File> fileList = Common.textFilesInDir("/usr/src");
-            for (int n = 20; --n >= 0; ) {
+            final List<File> fileList = Utils.filesInDirWithExtension("/usr/src", ".txt");
+            for (int n = 10; --n >= 0; ) {
                 {
                     final WordCounter wordCounter = new WordCounter();
                     final Instant before1 = Instant.now();
-                    Common.countWordsInFiles(fileList, wordCounter);
+                    Utils.countWordsInFiles(fileList, wordCounter);
                     System.out.println("time LINEAR = " + Duration.between(before1, Instant.now()).toMillis() + " ms");
                     System.out.println("fileList = " + fileList.size());
 

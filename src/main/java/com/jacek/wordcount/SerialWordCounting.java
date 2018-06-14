@@ -7,7 +7,7 @@ final class SerialWordCounting implements WordCountingService {
     @Override
     public WordCounter countWords(final List<File> files) {
         final WordCounter wordCounter = new WordCounter();
-        Common.countWordsInFiles(files, wordCounter);
+        Utils.countWordsInFiles(files, wordCounter);
         return wordCounter;
     }
 }

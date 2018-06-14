@@ -14,7 +14,13 @@ import java.util.stream.Stream;
  *
  * @author Jacek R. Ambroziak
  */
-final class Common {
+final class Utils {
+    /**
+     * @param reader      a reader like FileReader, InputStreamReader, StringReader, etc.
+     *                    This function closes the reader after exhausting it's contents
+     * @param wordCounter
+     * @throws IOException
+     */
     static void countWordsFromReader(final Reader reader, final WordCounter wordCounter) throws IOException {
         final BufferedReader bufferedReader = new BufferedReader(reader);
         String line;
@@ -27,14 +33,15 @@ final class Common {
                 }
             }
         }
+        bufferedReader.close();
     }
 
     static void countWordsInFiles(final List<File> files, final WordCounter wordCounter) {
         for (final File file : files) {
             try {
+                // we have an opportunity here to extract text from compressed formats, epub etc.
                 final FileReader reader = new FileReader(file);
                 countWordsFromReader(reader, wordCounter);
-                reader.close();
             } catch (IOException e) {
                 System.out.println("e = " + e);
             }
@@ -47,9 +54,5 @@ final class Common {
                     .map(Path::toFile)
                     .collect(Collectors.toList());
         }
-    }
-
-    static List<File> textFilesInDir(final String dirName) throws IOException {
-        return filesInDirWithExtension(dirName, ".txt");
     }
 }

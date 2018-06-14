@@ -15,7 +15,7 @@ public final class TokenizationTest extends JavaBaseTest {
     @Test
     public void tokenizeLines() throws IOException {
         final WordCounter wc = new WordCounter();
-        Common.countWordsFromReader(new StringReader("<a b> ,,B \tc a, b. A!"), wc);
+        Utils.countWordsFromReader(new StringReader("<a b> ,,B \tc a, b. A!"), wc);
 
         Assert.assertEquals(wc.getAllWords(), new HashSet<>(Arrays.asList("a", "b", "c")));
         Assert.assertEquals(wc.getCount("a"), 3);
