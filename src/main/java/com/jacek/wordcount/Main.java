@@ -19,7 +19,7 @@ final class Main {
             files.add(new File(arg));
         }
         final int singleTaskMaxSize = 200;
-        final WordCountingService wordCountingService = new ParallelWordCounting(singleTaskMaxSize);
+        final WordCountingService wordCountingService = new ForkJoinWordCounting(singleTaskMaxSize);
         try {
             final WordCounter wordCounter = wordCountingService.countWords(files);
             System.out.println("token count   = " + wordCounter.size());

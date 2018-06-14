@@ -22,7 +22,7 @@ final class MainDirExt {
         try {
             final List<File> files = Common.filesInDirWithExtension(dir, ext);
             final int singleTaskMaxSize = 200;
-            final WordCountingService wordCountingService = new ParallelWordCounting(singleTaskMaxSize);
+            final WordCountingService wordCountingService = new ForkJoinWordCounting(singleTaskMaxSize);
             final WordCounter wordCounter = wordCountingService.countWords(files);
             System.out.println("token count   = " + wordCounter.size());
             System.out.println("wordCounters = " + wordCounter.getPerformanceDataAsString());

@@ -73,9 +73,16 @@ final class WordCounter {
      */
     public static final class WordCount implements Comparable<WordCount> {
         static final Comparator<WordCount> COMPARATOR = new WordCountComparator();
-
         final String word;
         final int count;
+
+        public String getWord() {
+            return word;
+        }
+
+        public int getCount() {
+            return count;
+        }
 
         public WordCount(final String word, final int count) {
             checkArgument(word != null);
@@ -158,6 +165,11 @@ final class WordCounter {
     Optional<WordCount> getWordCount(final String word) {
         final Counter counter = counterHashMap.get(word);
         return counter != null ? Optional.of(new WordCount(word, counter.value)) : Optional.empty();
+    }
+
+    int getCount(final String word) {
+        final Counter counter = counterHashMap.get(word);
+        return counter != null ? counter.getValue() : 0;
     }
 
     /**

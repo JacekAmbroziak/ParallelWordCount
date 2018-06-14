@@ -27,7 +27,7 @@ final class SpeedTest {
                 }
                 {
                     final int singleTaskMaxSize = 200;
-                    final WordCountingService wordCountingService = new ParallelWordCounting(singleTaskMaxSize);
+                    final WordCountingService wordCountingService = new ForkJoinWordCounting(singleTaskMaxSize);
                     final Instant before = Instant.now();
                     final WordCounter wordCounter2 = wordCountingService.countWords(fileList);
                     System.out.println("time FORK/JOIN = " + Duration.between(before, Instant.now()).toMillis() + " ms");

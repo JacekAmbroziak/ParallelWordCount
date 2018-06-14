@@ -14,12 +14,12 @@ import static com.google.common.base.Preconditions.checkArgument;
  *
  * @author Jacek R. Ambroziak
  */
-final class ParallelWordCounting implements WordCountingService {
+final class ForkJoinWordCounting implements WordCountingService {
     // a parameter to experiment with:
     // for lists of files of that size or smaller 
     private final int singleTaskMaxSize;
 
-    ParallelWordCounting(final int singleTaskMaxSize) {
+    ForkJoinWordCounting(final int singleTaskMaxSize) {
         checkArgument(singleTaskMaxSize > 0);
         this.singleTaskMaxSize = singleTaskMaxSize;
     }
