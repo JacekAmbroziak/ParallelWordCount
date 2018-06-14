@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Jacek R. Ambroziak
@@ -22,9 +21,9 @@ public final class WordCountTest extends JavaBaseTest {
         wc.countWord("a");
         wc.countWord("c");
         Assert.assertEquals(wc.getAllWords(), new HashSet<>(Arrays.asList("a", "b", "c")));
-        Assert.assertEquals(wc.getWordCount("a"), Optional.of(new WordCounter.WordCount("a", 3)));
-        Assert.assertEquals(wc.getWordCount("b"), Optional.of(new WordCounter.WordCount("b", 2)));
-        Assert.assertEquals(wc.getWordCount("c"), Optional.of(new WordCounter.WordCount("c", 1)));
+        Assert.assertEquals(wc.getCount("a"), 3);
+        Assert.assertEquals(wc.getCount("b"), 2);
+        Assert.assertEquals(wc.getCount("c"), 1);
     }
 
     @Test
@@ -39,9 +38,9 @@ public final class WordCountTest extends JavaBaseTest {
         wc1.countWord("c");
         wc0.mergeIn(wc1);
         Assert.assertEquals(wc0.getAllWords(), new HashSet<>(Arrays.asList("a", "b", "c")));
-        Assert.assertEquals(wc0.getWordCount("a"), Optional.of(new WordCounter.WordCount("a", 3)));
-        Assert.assertEquals(wc0.getWordCount("b"), Optional.of(new WordCounter.WordCount("b", 2)));
-        Assert.assertEquals(wc0.getWordCount("c"), Optional.of(new WordCounter.WordCount("c", 1)));
+        Assert.assertEquals(wc0.getCount("a"), 3);
+        Assert.assertEquals(wc0.getCount("b"), 2);
+        Assert.assertEquals(wc0.getCount("c"), 1);
     }
 
     @Test
@@ -62,10 +61,10 @@ public final class WordCountTest extends JavaBaseTest {
         wc0.mergeIn(wc1);
 
         Assert.assertEquals(wc0.getAllWords(), new HashSet<>(Arrays.asList("a", "b", "c", "d")));
-        Assert.assertEquals(wc0.getWordCount("a"), Optional.of(new WordCounter.WordCount("a", 4)));
-        Assert.assertEquals(wc0.getWordCount("b"), Optional.of(new WordCounter.WordCount("b", 2)));
-        Assert.assertEquals(wc0.getWordCount("c"), Optional.of(new WordCounter.WordCount("c", 1)));
-        Assert.assertEquals(wc0.getWordCount("d"), Optional.of(new WordCounter.WordCount("d", 2)));
+        Assert.assertEquals(wc0.getCount("a"), 4);
+        Assert.assertEquals(wc0.getCount("b"), 2);
+        Assert.assertEquals(wc0.getCount("c"), 1);
+        Assert.assertEquals(wc0.getCount("d"), 2);
     }
 
     @Test
