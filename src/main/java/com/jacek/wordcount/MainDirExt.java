@@ -1,7 +1,6 @@
 package com.jacek.wordcount;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -22,11 +21,13 @@ final class MainDirExt {
         final String ext = args[1];
         try {
             final List<File> files = Common.filesInDirWithExtension(dir, ext);
-            final WordCounter wordCounter = WordCounting.parallelWordCount(files);
+            final int singleTaskMaxSize = 200;
+            final WordCountingService wordCountingService = new ParallelWordCounting(singleTaskMaxSize);
+            final WordCounter wordCounter = wordCountingService.countWords(files);
             System.out.println("token count   = " + wordCounter.size());
             System.out.println("wordCounters = " + wordCounter.getPerformanceDataAsString());
             System.out.println("wordCounters top 20 = " + wordCounter.topWords(20));
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

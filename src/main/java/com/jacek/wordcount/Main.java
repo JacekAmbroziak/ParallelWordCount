@@ -18,9 +18,15 @@ final class Main {
         for (String arg : args) {
             files.add(new File(arg));
         }
-        final WordCounter wordCounter = WordCounting.parallelWordCount(files);
-        System.out.println("token count   = " + wordCounter.size());
-        System.out.println("wordCounters = " + wordCounter.getPerformanceDataAsString());
-        System.out.println("wordCounters top 20 = " + wordCounter.topWords(20));
+        final int singleTaskMaxSize = 200;
+        final WordCountingService wordCountingService = new ParallelWordCounting(singleTaskMaxSize);
+        try {
+            final WordCounter wordCounter = wordCountingService.countWords(files);
+            System.out.println("token count   = " + wordCounter.size());
+            System.out.println("wordCounters = " + wordCounter.getPerformanceDataAsString());
+            System.out.println("wordCounters top 20 = " + wordCounter.topWords(20));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

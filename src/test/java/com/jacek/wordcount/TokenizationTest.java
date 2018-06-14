@@ -12,7 +12,7 @@ import java.util.Optional;
 /**
  * @author Jacek R. Ambroziak
  */
-public final class TokenizationTest {
+public final class TokenizationTest extends JavaBaseTest {
     @Test
     public void tokenizeLines() throws IOException {
         final WordCounter wc = new WordCounter();

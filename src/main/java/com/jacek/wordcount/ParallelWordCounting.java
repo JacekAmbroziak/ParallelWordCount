@@ -6,23 +6,30 @@ import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 /**
  * This class uses the ForkJoin framework to rationally divide work into smaller chunks
  * that can be executed concurrently.
  *
  * @author Jacek R. Ambroziak
  */
-final class WordCounting {
+final class ParallelWordCounting implements WordCountingService {
     // a parameter to experiment with:
     // for lists of files of that size or smaller 
-    private final static int SINGLE_TASK_MAX_SIZE = 200;
+    private final int singleTaskMaxSize;
+
+    ParallelWordCounting(final int singleTaskMaxSize) {
+        checkArgument(singleTaskMaxSize > 0);
+        this.singleTaskMaxSize = singleTaskMaxSize;
+    }
 
     /**
      * A RecursiveTask implementation responsible for parallelization w/i the Fork/Join framework
      * It's compute method either performs smaller tasks directly
      * or schedules subtasks to be performed concurrently for their results to be merged when available
      */
-    private static final class CountingTask extends RecursiveTask<WordCounter> {
+    private final class CountingTask extends RecursiveTask<WordCounter> {
         private final List<File> files;
 
         CountingTask(final List<File> files) {
@@ -33,7 +40,7 @@ final class WordCounting {
         protected WordCounter compute() {
             final int taskSize = files.size();
             // if small enough compute directly w/o splitting
-            if (taskSize <= SINGLE_TASK_MAX_SIZE) {
+            if (taskSize <= singleTaskMaxSize) {
                 final WordCounter wordCounter = new WordCounter();
                 Common.countWordsInFiles(files, wordCounter);
                 return wordCounter;
@@ -53,7 +60,7 @@ final class WordCounting {
         }
     }
 
-    static WordCounter parallelWordCount(final List<File> files) {
+    public WordCounter countWords(final List<File> files) {
         final ForkJoinPool forkJoinPool = new ForkJoinPool();
         try {
             return forkJoinPool.invoke(new CountingTask(files));
