@@ -10,7 +10,13 @@ Once a fat jar is created w/ sbt assemble, you can run the code anywhere.
 
 `com.jacek.wordcount.Main` assumes a list of text files as program arguments
  
-`com.jacek.wordcount.MainDirExt` assumes 2 arguments: a root dir to search for text files and an extension such as `.txt` 
+`com.jacek.wordcount.MainDirExt` assumes 2 arguments: a root dir to search for text files and an extension such as `txt` 
+
+### How to run
+
+1. it is easy to run all classes from Intellij IDEA
+2. otherwise build a fat jar with `sbt assembly`, then
+3. eg. `java -cp /tmp/sbt/WordCount/scala-2.12/WordCount-assembly-0.1.jar com.jacek.wordcount.MainDirExt /opt/projects/WordCount .java`
 
 
 ## Text tokenization

@@ -22,5 +22,6 @@ public final class TokenizationTest extends JavaBaseTest {
         Assert.assertEquals(wc.getWordCount("a"), Optional.of(new WordCounter.WordCount("a", 3)));
         Assert.assertEquals(wc.getWordCount("b"), Optional.of(new WordCounter.WordCount("b", 3)));
         Assert.assertEquals(wc.getWordCount("c"), Optional.of(new WordCounter.WordCount("c", 1)));
+        Assert.assertEquals(wc.getWordCount("d"), Optional.empty());
     }
 }

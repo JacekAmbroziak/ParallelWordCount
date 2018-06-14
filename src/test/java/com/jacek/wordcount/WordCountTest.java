@@ -23,7 +23,7 @@ public final class WordCountTest extends JavaBaseTest {
         wc.countWord("c");
         Assert.assertEquals(wc.getAllWords(), new HashSet<>(Arrays.asList("a", "b", "c")));
         Assert.assertEquals(wc.getWordCount("a"), Optional.of(new WordCounter.WordCount("a", 3)));
-        Assert.assertEquals(wc.getWordCount("b"), Optional.of(new WordCounter.WordCount("b", 3)));
+        Assert.assertEquals(wc.getWordCount("b"), Optional.of(new WordCounter.WordCount("b", 2)));
         Assert.assertEquals(wc.getWordCount("c"), Optional.of(new WordCounter.WordCount("c", 1)));
     }
 
