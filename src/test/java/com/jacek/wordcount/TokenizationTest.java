@@ -1,7 +1,7 @@
 package com.jacek.wordcount;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -11,7 +11,7 @@ import java.util.HashSet;
 /**
  * @author Jacek R. Ambroziak
  */
-public final class TokenizationTest extends JavaBaseTest {
+public final class TokenizationTest {
     @Test
     public void tokenizeLines() throws IOException {
         final WordCounter wc = new WordCounter();

@@ -36,6 +36,10 @@ final class Utils {
         bufferedReader.close();
     }
 
+    /**
+     * @param files text files to process
+     * @param wordCounter target WordCounter to add word occurrences from text files of 1st arg
+     */
     static void countWordsInFiles(final List<File> files, final WordCounter wordCounter) {
         for (final File file : files) {
             try {
@@ -48,6 +52,12 @@ final class Utils {
         }
     }
 
+    /**
+     * @param dirName name of the directory to search
+     * @param extension file extension, eg. .txt, of files we search for and will include in the result
+     * @return list of files in input directory or its subdirectories with names ending in extension
+     * @throws IOException
+     */
     static List<File> filesInDirWithExtension(final String dirName, final String extension) throws IOException {
         try (final Stream<Path> paths = Files.walk(Paths.get(dirName))) {
             return paths.filter(path -> path.getFileName().toString().endsWith(extension))

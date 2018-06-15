@@ -1,7 +1,7 @@
 package com.jacek.wordcount;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author Jacek R. Ambroziak
  */
-public final class WordCountTest extends JavaBaseTest {
+public final class WordCountTest {
     @Test
     public void testCounting() {
         final WordCounter wc = new WordCounter();

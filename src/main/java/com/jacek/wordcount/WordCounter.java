@@ -158,11 +158,6 @@ final class WordCounter {
         return counterHashMap.keySet();
     }
 
-    Optional<WordCount> getWordCount(final String word) {
-        final Counter counter = counterHashMap.get(word);
-        return counter != null ? Optional.of(new WordCount(word, counter.value)) : Optional.empty();
-    }
-
     int getCount(final String word) {
         final Counter counter = counterHashMap.get(word);
         return counter != null ? counter.getValue() : 0;
