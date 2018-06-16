@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
@@ -64,5 +65,22 @@ final class Utils {
                     .map(Path::toFile)
                     .collect(Collectors.toList());
         }
+    }
+
+    private static List<String> textLinesInDir(final String dirName) throws IOException {
+        final List<String> allLines = new ArrayList<>();
+        for (final File file : filesInDirWithExtension(dirName, ".txt")) {
+            try {
+                final BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    allLines.add(line);
+                }
+                bufferedReader.close();
+            } catch (IOException e) {
+                System.out.println("e = " + e);
+            }
+        }
+        return allLines;
     }
 }

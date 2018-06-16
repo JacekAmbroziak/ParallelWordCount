@@ -108,25 +108,8 @@ public final class TokenizationPerformanceComparison {
         return counter;
     }
 
-    private static List<String> textLinesInDir(final String dirName) throws IOException {
-        final List<String> allLines = new ArrayList<>();
-        for (final File file : Utils.filesInDirWithExtension(dirName, ".txt")) {
-            try {
-                final BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-                String line;
-                while ((line = bufferedReader.readLine()) != null) {
-                    allLines.add(line);
-                }
-                bufferedReader.close();
-            } catch (IOException e) {
-                System.out.println("e = " + e);
-            }
-        }
-        return allLines;
-    }
-
     @Test
-    public static void main(String[] args) {
+    public void run() {
         try {
             final List<String> allLines = TestUtils.unzipToLines(TestUtils.resourceFile("linux-4.9.95-docs.zip"));
             System.out.println("allLines size = " + allLines.size());
@@ -198,10 +181,5 @@ public final class TokenizationPerformanceComparison {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Test
-    public static void runIt() {
-        
     }
 }
