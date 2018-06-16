@@ -1,5 +1,7 @@
 package com.jacek.wordcount;
 
+import org.junit.Test;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -16,8 +18,7 @@ import java.util.stream.Stream;
 /**
  * @author Jacek R. Ambroziak
  */
-final class TokenizationSpeedTest {
-
+public final class TokenizationPerformanceComparison {
     // simple whitespace regex
     private final static Pattern WS_SPLITTER = Pattern.compile("\\s+");
     // single regex to take care of separation by whitespace and not including leading/trailing punctuation
@@ -124,10 +125,11 @@ final class TokenizationSpeedTest {
         return allLines;
     }
 
+    @Test
     public static void main(String[] args) {
         try {
-            final List<String> allLines = textLinesInDir("/usr/src");
-            System.out.println("allLines = " + allLines.size());
+            final List<String> allLines = TestUtils.unzipToLines(TestUtils.resourceFile("linux-4.9.95-docs.zip"));
+            System.out.println("allLines size = " + allLines.size());
             {
                 final long count1 = tokenizeLines1(allLines.stream()).count();
                 System.out.println("count1 = " + count1);
@@ -149,6 +151,7 @@ final class TokenizationSpeedTest {
                     final long count1 = tokenizeLines1(allLines.stream()).count();
                     minTime = Math.min(minTime, Duration.between(before, Instant.now()).toMillis());
                 }
+                System.out.println("regex ws + punct");
                 System.out.println("minTime1 = " + minTime);
             }
             {
@@ -158,6 +161,7 @@ final class TokenizationSpeedTest {
                     final long count2 = tokenizeLines2(allLines.stream()).count();
                     minTime = Math.min(minTime, Duration.between(before, Instant.now()).toMillis());
                 }
+                System.out.println("regex ws only, separate strip punctuation");
                 System.out.println("minTime2 = " + minTime);
             }
             {
@@ -167,6 +171,7 @@ final class TokenizationSpeedTest {
                     final long count3 = tokenizeLines3(allLines);
                     minTime = Math.min(minTime, Duration.between(before, Instant.now()).toMillis());
                 }
+                System.out.println("StringTokenizer, separate strip punctuation");
                 System.out.println("minTime3 = " + minTime);
             }
             {
@@ -174,9 +179,9 @@ final class TokenizationSpeedTest {
                 for (int i = nRuns; --i >= 0; ) {
                     final Instant before = Instant.now();
                     final long count4 = tokenizeLines4(allLines);
-                    System.out.println("count4 = " + count4);
                     minTime = Math.min(minTime, Duration.between(before, Instant.now()).toMillis());
                 }
+                System.out.println("hand coded ws split, separate strip punctuation");
                 System.out.println("minTime4 = " + minTime);
             }
             {
@@ -184,14 +189,19 @@ final class TokenizationSpeedTest {
                 for (int i = nRuns; --i >= 0; ) {
                     final Instant before = Instant.now();
                     final long count5 = tokenizeLines5(allLines);
-                    System.out.println("count5 = " + count5);
                     minTime = Math.min(minTime, Duration.between(before, Instant.now()).toMillis());
                 }
-                System.out.println("minTime4 = " + minTime);
+                System.out.println("BreakIterator");
+                System.out.println("minTime5 = " + minTime);
             }
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public static void runIt() {
+        
     }
 }

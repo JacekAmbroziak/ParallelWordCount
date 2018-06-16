@@ -1,9 +1,6 @@
 package com.jacek.wordcount;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,5 +70,20 @@ final class TestUtils {
         zis.closeEntry();
         zis.close();
         return fileList;
+    }
+
+    static List<String> unzipToLines(final File zipFile) throws IOException {
+        final ArrayList<String> lines = new ArrayList<>();
+        final ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile));
+        for (ZipEntry zipEntry = zis.getNextEntry(); zipEntry != null; zipEntry = zis.getNextEntry()) {
+            final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(zis));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                lines.add(line);
+            }
+        }
+        zis.closeEntry();
+        zis.close();
+        return lines;
     }
 }

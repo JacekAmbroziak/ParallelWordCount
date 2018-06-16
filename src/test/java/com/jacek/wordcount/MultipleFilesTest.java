@@ -10,7 +10,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Set;
 
-public final class MultipleFiles {
+public final class MultipleFilesTest {
     @Rule
     public TemporaryFolder tmpFolder = new TemporaryFolder();
     private List<File> fileList;
@@ -23,9 +23,11 @@ public final class MultipleFiles {
 
     @Test
     public void processMultipleFiles() throws Exception {
+        // baseline
         final WordCountingService serialCounting = new SerialWordCounting();
         final WordCounter wordCounter1 = serialCounting.countWords(fileList);
 
+        // use fork/join
         final int singleTaskMaxSize = 200;
         final WordCountingService forkJoinParallel = new ForkJoinWordCounting(singleTaskMaxSize);
         final WordCounter wordCounter2 = forkJoinParallel.countWords(fileList);
@@ -35,5 +37,15 @@ public final class MultipleFiles {
 
         Assert.assertTrue(allWords1.stream()
                 .allMatch(word -> wordCounter1.getCount(word) == wordCounter2.getCount(word)));
+
+        // use simple Futures
+        final int noOfThreads = 8;
+        final WordCountingService simpleParallel = new SimpleParallelWordCounting(noOfThreads);
+        final WordCounter wordCounter3 = simpleParallel.countWords(fileList);
+
+        Assert.assertEquals(allWords1, wordCounter3.getAllWords());
+
+        Assert.assertTrue(allWords1.stream()
+                .allMatch(word -> wordCounter1.getCount(word) == wordCounter3.getCount(word)));
     }
 }

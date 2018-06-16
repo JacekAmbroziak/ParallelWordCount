@@ -1,5 +1,7 @@
 package com.jacek.wordcount;
 
+import org.junit.Test;
+
 import java.io.File;
 import java.time.Duration;
 import java.time.Instant;
@@ -10,8 +12,9 @@ import java.util.List;
  *
  * @author Jacek R. Ambroziak
  */
-final class SpeedTest {
-    public static void main(String[] args) {
+public final class PerformanceComparison {
+    @Test
+    public void run() {
         try {
             final List<File> fileList = Utils.filesInDirWithExtension("/usr/src", ".txt");
             for (int n = 10; --n >= 0; ) {
