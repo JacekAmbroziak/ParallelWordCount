@@ -21,13 +21,15 @@ public final class PerformanceComparison {
     @Test
     public void run() {
         try {
-            final List<File> fileList = TestUtils.unzipToDir(TestUtils.resourceFile("linux-4.9.95-docs.zip"), tmpFolder.getRoot());
+            final List<File> fileList = TestUtils.unzipToDir(
+                    TestUtils.resourceFile("linux-4.9.95-docs.zip"),
+                    tmpFolder.getRoot());
             System.out.println("fileList = " + fileList.size());
             for (int n = 10; --n >= 0; ) {
                 {
                     final WordCounter wordCounter = new WordCounter();
                     final Instant before1 = Instant.now();
-                    Utils.countWordsInFiles(fileList, wordCounter);
+                    Core.countWordsInFiles(fileList, wordCounter);
                     System.out.println("time LINEAR\t\t= " + Duration.between(before1, Instant.now()).toMillis() + " ms");
                     if (n == 0) {
                         System.out.println("token count  = " + wordCounter.size());

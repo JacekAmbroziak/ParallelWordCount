@@ -9,7 +9,7 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import static com.google.common.io.Resources.getResource;
-import static com.jacek.wordcount.Utils.filesInDirWithExtension;
+import static com.jacek.wordcount.Core.filesInDirWithExtension;
 
 final class TestUtils {
     static File resourceFile(final String fileName) throws URISyntaxException {

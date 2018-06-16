@@ -42,7 +42,7 @@ final class ForkJoinWordCounting implements WordCountingService {
             // if small enough compute directly w/o splitting
             if (taskSize <= singleTaskMaxSize) {
                 final WordCounter wordCounter = new WordCounter();
-                Utils.countWordsInFiles(files, wordCounter);
+                Core.countWordsInFiles(files, wordCounter);
                 return wordCounter;
             } else {
                 final int halfSize = taskSize / 2;

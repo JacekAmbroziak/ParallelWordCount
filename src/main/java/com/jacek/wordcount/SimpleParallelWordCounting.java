@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.jacek.wordcount.Utils.countWordsInFiles;
+import static com.jacek.wordcount.Core.countWordsInFiles;
 
 /**
  * @author Jacek R. Ambroziak
@@ -66,7 +66,7 @@ final class SimpleParallelWordCounting implements WordCountingService {
 
     public static void main(String[] args) {
         try {
-            final List<File> fileList = Utils.filesInDirWithExtension("/usr/src", ".txt");
+            final List<File> fileList = Core.filesInDirWithExtension("/usr/src", ".txt");
             final SimpleParallelWordCounting counting = new SimpleParallelWordCounting(Runtime.getRuntime().availableProcessors());
             for (int i = 0; i < 20; i++) {
                 final Instant before = Instant.now();

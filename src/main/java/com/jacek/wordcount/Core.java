@@ -7,6 +7,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -15,7 +17,9 @@ import java.util.stream.Stream;
  *
  * @author Jacek R. Ambroziak
  */
-final class Utils {
+final class Core {
+    private static final Logger log = Logger.getLogger(Core.class.getName());
+
     /**
      * @param reader      a reader like FileReader, InputStreamReader, StringReader, etc.
      *                    This function closes the reader after exhausting it's contents
@@ -38,7 +42,7 @@ final class Utils {
     }
 
     /**
-     * @param files text files to process
+     * @param files       text files to process
      * @param wordCounter target WordCounter to add word occurrences from text files of 1st arg
      */
     static void countWordsInFiles(final List<File> files, final WordCounter wordCounter) {
@@ -48,13 +52,13 @@ final class Utils {
                 final FileReader reader = new FileReader(file);
                 countWordsFromReader(reader, wordCounter);
             } catch (IOException e) {
-                System.out.println("e = " + e);
+                log.log(Level.SEVERE, e.getMessage());
             }
         }
     }
 
     /**
-     * @param dirName name of the directory to search
+     * @param dirName   name of the directory to search
      * @param extension file extension, eg. .txt, of files we search for and will include in the result
      * @return list of files in input directory or its subdirectories with names ending in extension
      * @throws IOException
@@ -78,7 +82,7 @@ final class Utils {
                 }
                 bufferedReader.close();
             } catch (IOException e) {
-                System.out.println("e = " + e);
+                log.log(Level.SEVERE, e.getMessage());
             }
         }
         return allLines;

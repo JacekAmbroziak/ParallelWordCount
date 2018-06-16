@@ -19,6 +19,7 @@ public final class MultipleFilesTest {
     public void setUp() throws Exception {
         final File tmpDir = tmpFolder.getRoot();
         fileList = TestUtils.unzipToDir(TestUtils.resourceFile("linux-4.9.95-docs.zip"), tmpDir);
+        fileList.add(new File("kwas"));
     }
 
     @Test

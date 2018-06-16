@@ -20,7 +20,7 @@ final class MainDirExt {
         final String dir = args[0];
         final String ext = args[1];
         try {
-            final List<File> files = Utils.filesInDirWithExtension(dir, ext);
+            final List<File> files = Core.filesInDirWithExtension(dir, ext);
             final int singleTaskMaxSize = 200;
             final WordCountingService wordCountingService = new ForkJoinWordCounting(singleTaskMaxSize);
             final WordCounter wordCounter = wordCountingService.countWords(files);
