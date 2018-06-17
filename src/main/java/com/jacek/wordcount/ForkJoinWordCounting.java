@@ -2,6 +2,7 @@ package com.jacek.wordcount;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
@@ -63,6 +64,8 @@ final class ForkJoinWordCounting implements WordCountingService {
     public WordCounter countWords(final List<File> files) {
         final ForkJoinPool forkJoinPool = new ForkJoinPool();
         try {
+            // randomize file order for better balanced task tree
+            Collections.shuffle(files);
             return forkJoinPool.invoke(new CountingTask(files));
         } finally {
             forkJoinPool.shutdown();
