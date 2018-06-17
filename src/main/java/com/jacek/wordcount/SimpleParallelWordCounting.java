@@ -17,7 +17,7 @@ import static com.jacek.wordcount.Core.countWordsInFiles;
  * @author Jacek R. Ambroziak
  */
 final class SimpleParallelWordCounting implements WordCountingService {
-    final int noOfThreads;
+    private final int noOfThreads;
 
     SimpleParallelWordCounting(final int noOfThreads) {
         checkArgument(noOfThreads >= 1);

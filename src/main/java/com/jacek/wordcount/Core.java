@@ -1,9 +1,15 @@
 package com.jacek.wordcount;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -46,6 +52,7 @@ final class Core {
      * @param wordCounter target WordCounter to add word occurrences from text files of 1st arg
      */
     static void countWordsInFiles(final List<File> files, final WordCounter wordCounter) {
+        final Instant before = Instant.now();
         for (final File file : files) {
             try {
                 // we have an opportunity here to extract text from compressed formats, epub etc.
@@ -55,6 +62,7 @@ final class Core {
                 log.log(Level.SEVERE, e.getMessage());
             }
         }
+        wordCounter.updateBatchStats(files.size(), Duration.between(before, Instant.now()).toMillis());
     }
 
     /**

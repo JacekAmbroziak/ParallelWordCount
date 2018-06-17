@@ -40,10 +40,12 @@ public final class PerformanceComparison {
                     minLIN = Math.min(minLIN, timeMsec);
                     System.out.println("time LINEAR\t\t= " + timeMsec + " ms");
                     if (n == 0) {
+                        System.out.println();
                         System.out.println("token count  = " + wordCounter.size());
                         System.out.println("wordCounter = " + wordCounter.getPerformanceDataAsString());
                         System.out.println("wordCounter top 20 = " + wordCounter.topWords(20));
                         System.out.println(String.format("LIN: avg msec: %d, min msec: %d", totalLIN / nReps, minLIN));
+                        System.out.println("\n");
                     }
                 }
                 {

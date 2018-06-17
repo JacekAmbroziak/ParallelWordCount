@@ -1,6 +1,8 @@
 package com.jacek.wordcount;
 
 import java.io.File;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
 final class SerialWordCounting implements WordCountingService {

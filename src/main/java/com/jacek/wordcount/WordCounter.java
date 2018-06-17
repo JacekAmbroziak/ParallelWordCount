@@ -4,7 +4,11 @@ import com.google.common.collect.Comparators;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -19,8 +23,11 @@ import static com.google.common.base.Preconditions.checkArgument;
  */
 final class WordCounter {
     private final HashMap<String, Counter> counterHashMap = new HashMap<>(4096);
-    private long cumulativeMillis = 0L;
+    private long cumulativeMergeMillis = 0L;
     private int cumulativeMergeCount = 0;
+    private long cumulativeBatchMillis = 0L;
+    private long cumulativeBatchSize = 0L;
+    private int cumulativeBatchCount = 0;
 
     /**
      * like Integer but mutable to support efficient incrementation
@@ -127,6 +134,12 @@ final class WordCounter {
         }
     }
 
+    void updateBatchStats(final long batchSize, final long batchMillis) {
+        cumulativeBatchMillis += batchMillis;
+        cumulativeBatchSize += batchSize;
+        ++cumulativeBatchCount;
+    }
+
     /**
      * Modifies this object by adding another set of counts
      *
@@ -144,9 +157,14 @@ final class WordCounter {
                 counts.put(key, entry.getValue());
             }
         }
-        // gather performance data
+        // update performance data
         cumulativeMergeCount += other.cumulativeMergeCount + 1;
-        cumulativeMillis += other.cumulativeMillis + Duration.between(before, Instant.now()).toMillis();
+        cumulativeMergeMillis += other.cumulativeMergeMillis + Duration.between(before, Instant.now()).toMillis();
+
+        cumulativeBatchMillis += other.cumulativeBatchMillis;
+        cumulativeBatchSize += other.cumulativeBatchSize;
+        cumulativeBatchCount += other.cumulativeBatchCount;
+
         return this;
     }
 
@@ -181,7 +199,11 @@ final class WordCounter {
     }
 
     String getPerformanceDataAsString() {
-        return String.format("%d merges in %d milliseconds, (%.2f msec/merge)", cumulativeMergeCount, cumulativeMillis, (double) cumulativeMillis / cumulativeMergeCount);
+        return String.format("%d total batch size\n%d batches in %d milliseconds, (%.2f msec/batch)\n%d merges in %d milliseconds, (%.2f msec/merge)",
+                cumulativeBatchSize,
+                cumulativeBatchCount, cumulativeBatchMillis, (double) cumulativeBatchMillis / cumulativeBatchCount,
+                cumulativeMergeCount, cumulativeMergeMillis, (double) cumulativeMergeMillis / cumulativeMergeCount
+        );
     }
 
     public static void main(String[] args) {
