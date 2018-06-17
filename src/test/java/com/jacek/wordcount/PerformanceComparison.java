@@ -38,14 +38,15 @@ public final class PerformanceComparison {
                     final long timeMsec = Duration.between(before, Instant.now()).toMillis();
                     totalLIN += timeMsec;
                     minLIN = Math.min(minLIN, timeMsec);
-                    System.out.println("time LINEAR\t\t= " + timeMsec + " ms");
+                    System.out.println("time SERIAL\t\t= " + timeMsec + " ms");
                     if (n == 0) {
+                        System.out.println();
+                        System.out.println(String.format("Serial:\tavg msec: %d, min msec: %d", totalLIN / nReps, minLIN));
                         System.out.println();
                         System.out.println("token count  = " + wordCounter.size());
                         System.out.println("wordCounter = " + wordCounter.getPerformanceDataAsString());
                         System.out.println("wordCounter top 20 = " + wordCounter.topWords(20));
-                        System.out.println(String.format("LIN: avg msec: %d, min msec: %d", totalLIN / nReps, minLIN));
-                        System.out.println("\n");
+
                     }
                 }
                 {
@@ -58,10 +59,12 @@ public final class PerformanceComparison {
                     minFAJ = Math.min(minFAJ, timeMsec);
                     System.out.println("time FORK/JOIN\t\t= " + timeMsec + " ms");
                     if (n == 0) {
+                        System.out.println();
+                        System.out.println(String.format("Fork/Join:\tavg msec: %d, min msec: %d", totalFAJ / nReps, minFAJ));
+                        System.out.println();
                         System.out.println("token count   = " + wordCounter.size());
                         System.out.println("wordCounter = " + wordCounter.getPerformanceDataAsString());
                         System.out.println("wordCounter top 20 = " + wordCounter.topWords(20));
-                        System.out.println(String.format("F/J: avg msec: %d, min msec: %d", totalFAJ / nReps, minFAJ));
                     }
                 }
             }

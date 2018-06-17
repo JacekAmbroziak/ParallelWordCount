@@ -1,6 +1,7 @@
 package com.jacek.wordcount;
 
 import com.google.common.collect.Comparators;
+import com.google.common.collect.ImmutableMap;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -12,6 +13,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.ImmutableMap.toImmutableMap;
 
 /**
  * HashMap backed collection of token occurrence counters
@@ -179,6 +181,15 @@ final class WordCounter {
     int getCount(final String word) {
         final Counter counter = counterHashMap.get(word);
         return counter != null ? counter.getValue() : 0;
+    }
+
+    /**
+     * @return ImmutableMap from words to their counts as Integers
+     */
+    ImmutableMap<String, Integer> toMap() {
+        return counterHashMap.entrySet()
+                .stream()
+                .collect(toImmutableMap(Map.Entry::getKey, e -> e.getValue().getValue()));
     }
 
     /**
