@@ -23,7 +23,7 @@ import static com.google.common.collect.ImmutableMap.toImmutableMap;
  *
  * @author Jacek R. Ambroziak
  */
-final class WordCounter {
+public final class WordCounter {
     private final HashMap<String, Counter> counterHashMap = new HashMap<>(4096);
     private long cumulativeMergeMillis = 0L;
     private int cumulativeMergeCount = 0;
@@ -170,15 +170,15 @@ final class WordCounter {
         return this;
     }
 
-    int size() {
+    public int size() {
         return counterHashMap.size();
     }
 
-    Set<String> getAllWords() {
+    public Set<String> getAllWords() {
         return counterHashMap.keySet();
     }
 
-    int getCount(final String word) {
+    public int getCount(final String word) {
         final Counter counter = counterHashMap.get(word);
         return counter != null ? counter.getValue() : 0;
     }
@@ -186,7 +186,7 @@ final class WordCounter {
     /**
      * @return ImmutableMap from words to their counts as Integers
      */
-    ImmutableMap<String, Integer> toMap() {
+    public ImmutableMap<String, Integer> toMap() {
         return counterHashMap.entrySet()
                 .stream()
                 .collect(toImmutableMap(Map.Entry::getKey, e -> e.getValue().getValue()));
@@ -200,7 +200,7 @@ final class WordCounter {
      * @param k nonnegative number of words of highest frequency in order of nonincreasing frequency
      * @return List of immutable WordCounts of highest frequency in order of nonincreasing frequency
      */
-    List<WordCount> topWords(final int k) {
+    public List<WordCount> topWords(final int k) {
         checkArgument(k >= 0, "Argument was %s but expected nonnegative", k);
         return getWordCountStream().collect(Comparators.greatest(k, WordCount.COMPARATOR));
     }
@@ -209,7 +209,7 @@ final class WordCounter {
         return counterHashMap.entrySet().stream().map(WordCount::fromEntry);
     }
 
-    String getPerformanceDataAsString() {
+    public String getPerformanceDataAsString() {
         return String.format("%d total batch size\n%d batches in %d milliseconds, (%.2f msec/batch)\n%d merges in %d milliseconds, (%.2f msec/merge)",
                 cumulativeBatchSize,
                 cumulativeBatchCount, cumulativeBatchMillis, (double) cumulativeBatchMillis / cumulativeBatchCount,
