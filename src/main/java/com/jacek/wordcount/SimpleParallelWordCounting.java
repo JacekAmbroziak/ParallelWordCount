@@ -14,7 +14,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.jacek.wordcount.Core.countWordsInFiles;
 
 /**
- * @author Jacek R. Ambroziak
+ * A natural implementation of parallelization of word count batches
+ * with a thread pool and Futures
  */
 final class SimpleParallelWordCounting implements WordCountingService {
     private final int noOfThreads;
@@ -55,7 +56,9 @@ final class SimpleParallelWordCounting implements WordCountingService {
 
         final ExecutorService executorService = Executors.newFixedThreadPool(noOfThreads);
         final List<Future<WordCounter>> futures = executorService.invokeAll(tasks);
+        // wait for 1st result
         final WordCounter wordCounter = futures.get(0).get();
+        // merge in subsequent results as they are or become ready
         for (int i = 1; i < futures.size(); i++) {
             wordCounter.mergeIn(futures.get(i).get());
         }

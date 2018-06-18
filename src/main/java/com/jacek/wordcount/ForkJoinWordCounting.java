@@ -12,8 +12,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 /**
  * This class uses the ForkJoin framework to rationally divide work into smaller chunks
  * that can be executed concurrently.
- *
- * @author Jacek R. Ambroziak
  */
 final class ForkJoinWordCounting implements WordCountingService {
     // a parameter to experiment with:

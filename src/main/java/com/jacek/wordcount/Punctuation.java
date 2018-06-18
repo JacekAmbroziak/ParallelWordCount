@@ -1,7 +1,10 @@
 package com.jacek.wordcount;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 /**
- * @author Jacek R. Ambroziak
+ * Utility class defining a set punctuation characters
+ * and providing a method to strip leading and trailing punctuation characters from input String
  */
 final class Punctuation {
     private final static String EMPTY_STRING = "";
@@ -9,7 +12,7 @@ final class Punctuation {
     private final static boolean[] IS_PUNCTUATION = new boolean[128];
 
     static {
-        // initialize punctuation array
+        // initialize IS_PUNCTUATION array
         for (int i = PUNCTUATION_CHARS.length(); --i >= 0; ) {
             IS_PUNCTUATION[PUNCTUATION_CHARS.charAt(i)] = true;
         }
@@ -19,15 +22,21 @@ final class Punctuation {
         return ch < 128 && IS_PUNCTUATION[ch];
     }
 
-    static String stripPunctuation(final String input) {
+    /**
+     * @param input non-null string
+     * @return substring of input with leading and trailing punctuation characters removed
+     */
+    static String stripPunctuation(@NonNull final String input) {
         int j = input.length();
+        // look for trailing punctuation chars in input
         while (--j >= 0 && isPunctuation(input.charAt(j))) {
             // continue
         }
-        if (j < 0) {
+        if (j < 0) {    // string was empty or contained only punctuation
             return EMPTY_STRING;
         } else {    // j >= 0, points at some non-punctuation char
             int i = 0;
+            // look for leading punctuation characters
             while (i < j && isPunctuation(input.charAt(i))) {
                 ++i;
             }

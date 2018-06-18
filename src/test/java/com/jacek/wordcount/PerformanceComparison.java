@@ -11,8 +11,6 @@ import java.util.List;
 
 /**
  * Main program to exercise and compare token counting in all .txt files in Linux kernel source
- *
- * @author Jacek R. Ambroziak
  */
 public final class PerformanceComparison {
     @Rule

@@ -2,26 +2,24 @@ package com.jacek.wordcount;
 
 import com.google.common.collect.Comparators;
 import com.google.common.collect.ImmutableMap;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 
 /**
- * HashMap backed collection of token occurrence counters
+ * HashMap backed collection of unique String occurrence counters
  * Similar to a HashMap of Integers, but avoiding excessive object creation
  * and rehashing of updated values on incrementation and merging
- * Mutable and NOT thread safe!
  *
- * @author Jacek R. Ambroziak
+ * While the intention is to count "words" this code counts any Strings
+ *
+ * Mutable and NOT thread safe!
  */
 public final class WordCounter {
     private final HashMap<String, Counter> counterHashMap = new HashMap<>(4096);
@@ -64,7 +62,13 @@ public final class WordCounter {
         }
     }
 
-    void countWord(final String word) {
+    /**
+     * Increment an existing counter for the argument word if found
+     * or start a new counter for the word initialized to this first occurrence
+     *
+     * @param word a non-null string an occurrence of which is to be counted
+     */
+    void countWord(@NonNull final String word) {
         final Counter counter = counterHashMap.get(word);
         if (counter != null) {
             counter.increment();
@@ -170,15 +174,25 @@ public final class WordCounter {
         return this;
     }
 
+    /**
+     * @return cardinality of unique words
+     */
     public int size() {
         return counterHashMap.size();
     }
 
+    /**
+     * @return set of all words counted
+     */
     public Set<String> getAllWords() {
         return counterHashMap.keySet();
     }
 
-    public int getCount(final String word) {
+    /**
+     * @param word non-null string
+     * @return primitive non-negative int representing the number of times the argument was counted
+     */
+    public int getCount(@NonNull final String word) {
         final Counter counter = counterHashMap.get(word);
         return counter != null ? counter.getValue() : 0;
     }
@@ -190,6 +204,17 @@ public final class WordCounter {
         return counterHashMap.entrySet()
                 .stream()
                 .collect(toImmutableMap(Map.Entry::getKey, e -> e.getValue().getValue()));
+    }
+
+    /**
+     * @return the total number of all occurrences of all words ever counted or merged in
+     */
+    public long getTotalCount() {
+        long total = 0L;
+        for (Counter counter : counterHashMap.values()) {
+            total += counter.getValue();
+        }
+        return total;
     }
 
     /**

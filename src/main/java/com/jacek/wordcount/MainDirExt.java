@@ -7,8 +7,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * Main program to count unique lower-cased tokens in files specified by directory + file extension like .txt or .c
- *
- * @author Jacek R. Ambroziak
  */
 final class MainDirExt {
     /**

@@ -8,6 +8,10 @@ as well as strategies to parallelize word count for multi core processors.
 This is an SBT 1.0, Java 8 project; you need sbt 1.0 to compile, build and run the project and its tests.
 Once a fat jar is created w/ sbt assemble, you can run the code anywhere. 
 
+The core multithreaded word counting functionality is implemented in `com.jacek.wordcount.ForkJoinWordCounting`
+supported by classes `WordCounter`, `Core` and `Punctuation` in the same package.
+Several other classes contain alternative implementations of tokenization and counting for experimentation and comparison.
+
 `com.jacek.wordcount.Main` assumes a list of text files as program arguments
  
 `com.jacek.wordcount.MainDirExt` assumes 2 arguments: a root dir to search for text files and an extension such as `txt` 

@@ -7,10 +7,32 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-/**
- * @author Jacek R. Ambroziak
- */
 public final class WordCountTest {
+    @Test
+    public void basicFunctionality() {
+        final WordCounter wc = new WordCounter();
+        Assert.assertEquals(wc.getAllWords().size(), 0);
+        Assert.assertEquals(wc.getCount("a"), 0);
+        Assert.assertEquals(wc.getCount("b"), 0);
+
+        wc.countWord("a");
+        Assert.assertEquals(wc.getAllWords().size(), 1);
+        Assert.assertEquals(wc.getCount("a"), 1);
+        Assert.assertEquals(wc.getCount("b"), 0);
+
+        wc.countWord("b");
+        Assert.assertEquals(wc.getAllWords().size(), 2);
+        Assert.assertEquals(wc.getCount("a"), 1);
+        Assert.assertEquals(wc.getCount("b"), 1);
+
+        wc.countWord("a");
+        Assert.assertEquals(wc.getAllWords().size(), 2);
+        Assert.assertEquals(wc.getCount("a"), 2);
+        Assert.assertEquals(wc.getCount("b"), 1);
+
+        Assert.assertEquals(wc.getTotalCount(), 3);
+    }
+
     @Test
     public void testCounting() {
         final WordCounter wc = new WordCounter();

@@ -20,8 +20,6 @@ import java.util.stream.Stream;
 
 /**
  * Utilities for the word count project
- *
- * @author Jacek R. Ambroziak
  */
 final class Core {
     private static final Logger log = Logger.getLogger(Core.class.getName());

@@ -8,9 +8,6 @@ import java.io.StringReader;
 import java.util.Arrays;
 import java.util.HashSet;
 
-/**
- * @author Jacek R. Ambroziak
- */
 public final class TokenizationTest {
     @Test
     public void tokenizeLines() throws IOException {

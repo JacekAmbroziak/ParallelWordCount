@@ -6,8 +6,6 @@ import java.util.List;
 
 /**
  * Main program to count unique lowercased tokens in files specified as arguments
- *
- * @author Jacek R. Ambroziak
  */
 final class Main {
     /**
