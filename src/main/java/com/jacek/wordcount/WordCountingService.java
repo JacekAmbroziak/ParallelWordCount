@@ -8,8 +8,9 @@ import java.util.List;
  */
 public interface WordCountingService {
     /**
-     * Tokenize a batch of text files on white space, strip punctuation, cannonicalize to lower case
-     * and return counts of unique words
+     * Tokenize a batch of text files and return counts of unique words
+     * Words are tokens separated by white space, striped of leading/trailing punctuation, and lower cased
+     *
      *
      * @param files a batch of files to process (can be a singleton list)
      * @return counts of unique words

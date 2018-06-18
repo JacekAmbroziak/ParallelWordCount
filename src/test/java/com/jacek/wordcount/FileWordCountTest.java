@@ -49,4 +49,21 @@ public final class FileWordCountTest {
         Assert.assertEquals(wordCounter12.topWords(40), wordCounterSimple.topWords(40));
         Assert.assertEquals(wordCounter12.topWords(40), wordCounterFJ.topWords(40));
     }
+
+    @Test
+    public void emptyFile() throws Exception {
+        final WordCountingService serialCounting = new SerialWordCounting();
+        final File txtFile = TestUtils.resourceFile("empty.txt");
+        final WordCounter wordCounter = serialCounting.countWords(Collections.singletonList(txtFile));
+        Assert.assertTrue(wordCounter.getAllWords().isEmpty());
+    }
+
+    @Test
+    public void singleToken() throws Exception {
+        final WordCountingService serialCounting = new SerialWordCounting();
+        final File txtFile = TestUtils.resourceFile("singletoken.txt");
+        final WordCounter wordCounter = serialCounting.countWords(Collections.singletonList(txtFile));
+        Assert.assertTrue(wordCounter.getAllWords().size() == 1);
+        Assert.assertEquals(wordCounter.getCount("a"), 1);
+    }
 }

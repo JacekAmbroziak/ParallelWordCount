@@ -65,8 +65,9 @@ final class ForkJoinWordCounting implements WordCountingService {
         final ForkJoinPool forkJoinPool = new ForkJoinPool();
         try {
             // randomize file order for better balanced task tree
-            Collections.shuffle(files);
-            return forkJoinPool.invoke(new CountingTask(files));
+            final List<File> filesCopy = new ArrayList<>(files);
+            Collections.shuffle(filesCopy);
+            return forkJoinPool.invoke(new CountingTask(filesCopy));
         } finally {
             forkJoinPool.shutdown();
         }

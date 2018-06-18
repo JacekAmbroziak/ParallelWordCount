@@ -14,18 +14,4 @@ libraryDependencies += "junit" % "junit" % "4.12" % Test
 crossPaths := false
 libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % Test
 
-
 testOptions in Test := Seq(Tests.Argument(TestFrameworks.JUnit, "-a"))
-
-//libraryDependencies ++= Seq(
-  //  "junit" % "junit" % "4.12" % Test,
-  //  "com.novocode" % "junit-interface" % "0.11" % Test exclude("junit", "junit-dep")
-  //  crossPaths := false,
-  //  "com.novocode" % "junit-interface" % "0.11" % Test
-
-  // https://mvnrepository.com/artifact/org.scalatest/scalatest
-//  "org.scalatest" %% "scalatest" % "3.2.0-SNAP10" % Test,
-//  "junit" % "junit" % "4.12" % Test,
-//  crossPaths := false,
-//  "com.novocode" % "junit-interface" % "0.11" % Test
-//)
